@@ -1,0 +1,13 @@
+# User config
+*.gprj.user
+
+# Work dirs
+impl/gwsynthesis
+impl/pnr
+impl/temp
+
+# Simulation results
+src/logs
+
+# Verilator workdir
+obj_dir
