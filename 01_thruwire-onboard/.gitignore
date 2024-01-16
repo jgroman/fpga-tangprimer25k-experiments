@@ -7,7 +7,14 @@ impl/pnr
 impl/temp
 
 # Simulation results
-src/logs
+logs/
 
 # Verilator workdir
-obj_dir
+obj_dir/
+sim_build/
+
+# Python
+__pycache__/
+
+# cocotb
+test/results.xml
