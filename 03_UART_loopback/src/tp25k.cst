@@ -1,0 +1,8 @@
+IO_LOC "o_uart_tx" C3;
+IO_PORT "o_uart_tx" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=8 BANK_VCCIO=3.3;
+
+IO_LOC "i_uart_rx" B3;
+IO_PORT "i_uart_rx" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=OFF BANK_VCCIO=3.3;
+
+IO_LOC "o_led_done" D7;
+IO_LOC "o_led_ready" E8;
