@@ -1,0 +1,20 @@
+# User config
+*.gprj.user
+
+# Work dirs
+impl/gwsynthesis
+impl/pnr
+impl/temp
+
+# Simulation results
+logs/
+
+# Verilator workdir
+obj_dir/
+sim_build/
+
+# Python
+__pycache__/
+
+# cocotb
+test/results.xml
