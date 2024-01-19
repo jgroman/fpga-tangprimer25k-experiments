@@ -5,6 +5,8 @@ Simple switch <-> LED connection using board only.
 - Connecting switch S1 status to LED "DONE"
 - Connecting inverted switch S2 status to LED "READY"
 
+![Board locations](docs/hw_configuration.jpg)
+
 ## Requirements
 
 Tang Primer 25K board
@@ -18,13 +20,6 @@ Menu Project -> Configuration -> Place & Route -> Dual-Purpose Pin
 Check "Use READY as regular IO" and "Use DONE as regular IO"
 
 ![Dual-Purpose Pins](./docs/pnr_configuration.png)
-
-## verilator
-
-```bash
-cd src
-make
-```
 
 ## Troubleshooting
 
