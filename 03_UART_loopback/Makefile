@@ -32,13 +32,16 @@ all: sram
 
 .PHONY: help
 help:
+	$(info ================ main help ================)
 	$(info $(help_targets))
 	$(info ================ cocotb help ================)
 	@$(MAKE) -C test help
 
 .PHONY: sram
 sram:
+	sudo usb_modeswitch -v 0x0403 -p 0x6010 --detach-only
 	sudo $(GOWIN_PROGRAMMER_CLI_PATH) --device $(GOWIN_DEVICE) --run $(GOWIN_OP_SRAM_PGM) --cable-index $(GOWIN_CABLE_INDEX) --fsFile $(GOWIN_FS_FILE)
+	sudo modprobe ftdi_sio
 
 .PHONY: flash
 flash:
