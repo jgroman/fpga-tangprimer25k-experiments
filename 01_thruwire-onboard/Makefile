@@ -12,6 +12,28 @@ GOWIN_OP_FLASH_PGM := 53
 DUMP_DIR := logs
 COCOTB_TEST_DIR := test
 
+# Gowin Programmer CLI
+#
+# - Programming SRAM
+#
+# sudo usb_modeswitch -v 0x0403 -p 0x6010 --detach-only
+# sudo $(GOWIN_PROGRAMMER_CLI_PATH) --device $(GOWIN_DEVICE) --run $(GOWIN_OP_SRAM_PGM) --cable-index $(GOWIN_CABLE_INDEX) --fsFile $(GOWIN_FS_FILE)
+# sudo modprobe ftdi_sio
+#
+# - Programming flash
+#
+# sudo usb_modeswitch -v 0x0403 -p 0x6010 --detach-only
+# sudo $(GOWIN_PROGRAMMER_CLI_PATH) --device $(GOWIN_DEVICE) --run $(GOWIN_OP_FLASH_PGM) --cable-index $(GOWIN_CABLE_INDEX) --fsFile $(GOWIN_FS_FILE)
+# sudo modprobe ftdi_sio
+#
+# - Erasing flash
+#
+# sudo usb_modeswitch -v 0x0403 -p 0x6010 --detach-only
+# sudo $(GOWIN_PROGRAMMER_CLI_PATH) --device $(GOWIN_DEVICE) --run $(GOWIN_OP_FLASH_ERASE) --cable-index $(GOWIN_CABLE_INDEX) --fsFile $(GOWIN_FS_FILE)
+# sudo modprobe ftdi_sio
+
+
+
 # NOTE: keep this at 80 chars.
 define help_targets =
 Targets
@@ -32,21 +54,22 @@ all: sram
 
 .PHONY: help
 help:
+	$(info ================ main help ================)
 	$(info $(help_targets))
 	$(info ================ cocotb help ================)
 	@$(MAKE) -C test help
 
 .PHONY: sram
 sram:
-	sudo $(GOWIN_PROGRAMMER_CLI_PATH) --device $(GOWIN_DEVICE) --run $(GOWIN_OP_SRAM_PGM) --cable-index $(GOWIN_CABLE_INDEX) --fsFile $(GOWIN_FS_FILE)
+	sudo openFPGALoader --board tangprimer25k $(GOWIN_FS_FILE)
 
 .PHONY: flash
 flash:
-	sudo $(GOWIN_PROGRAMMER_CLI_PATH) --device $(GOWIN_DEVICE) --run $(GOWIN_OP_FLASH_PGM) --cable-index $(GOWIN_CABLE_INDEX) --fsFile $(GOWIN_FS_FILE)
+	sudo openFPGALoader --board tangprimer25k --write-flash $(GOWIN_FS_FILE)
 
 .PHONY: erase
 erase:
-	sudo $(GOWIN_PROGRAMMER_CLI_PATH) --device $(GOWIN_DEVICE) --run $(GOWIN_OP_FLASH_ERASE) --cable-index $(GOWIN_CABLE_INDEX) --fsFile $(GOWIN_FS_FILE)
+	sudo openFPGALoader --board tangprimer25k --bulk-erase
 
 .PHONY: clean
 clean:

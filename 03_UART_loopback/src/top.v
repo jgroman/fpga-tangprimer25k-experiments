@@ -12,8 +12,8 @@ module top (
     assign  o_uart_tx = i_uart_rx;
 
    initial begin
-      $dumpfile("../logs/03.vcd");
-      $dumpvars();
+      $dumpfile("../test/logs/03.vcd");
+      $dumpvars(0, top);
    end
 
 endmodule
