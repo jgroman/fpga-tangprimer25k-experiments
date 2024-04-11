@@ -1,0 +1,7 @@
+IO_LOC "o_led_done" D7;
+IO_LOC "o_led_ready" E8;
+
+IO_LOC "i_sw_s1" H11;
+IO_PORT "i_sw_s1" PULL_MODE=DOWN DRIVE=OFF BANK_VCCIO=3.3;
+IO_LOC "i_sw_s2" H10;
+IO_PORT "i_sw_s2" PULL_MODE=DOWN DRIVE=OFF BANK_VCCIO=3.3;

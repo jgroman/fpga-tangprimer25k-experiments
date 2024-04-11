@@ -1,16 +1,27 @@
-PROJECT_NAME := 01_thruwire-onboard
+# HDL type. Can be overridden from CLI: `make ... HDL=vhdl`
+HDL?=verilog
+
+PROJECT_NAME := $(notdir $(CURDIR))_$(HDL)
+PROJECT_DIR := $(CURDIR)/$(HDL)
+
+$(info =======================================================================)
+$(info HDL: $(HDL) (Default: verilog, use VHDL: `make target HDL=vhdl`))
+$(info PROJECT_NAME: $(PROJECT_NAME))
+$(info PROJECT_DIR: $(PROJECT_DIR))
+$(info =======================================================================)
+$(info )
 
 GOWIN_PROGRAMMER_CLI_PATH := ~/sipeed/gowin/Programmer/bin/programmer_cli
 GOWIN_IDE_BIN_DIR := ~/sipeed/gowin/IDE/bin
 GOWIN_DEVICE := GW5A-25A
 GOWIN_CABLE_INDEX := 1
-GOWIN_FS_FILE := $(PWD)/impl/pnr/$(PROJECT_NAME).fs
+GOWIN_FS_FILE := $(PROJECT_DIR)/impl/pnr/$(PROJECT_NAME).fs
 GOWIN_OP_SRAM_PGM := 2
 GOWIN_OP_FLASH_ERASE := 52
 GOWIN_OP_FLASH_PGM := 53
 
-DUMP_DIR := logs
-COCOTB_TEST_DIR := test
+DUMP_DIR := $(PROJECT_DIR)/logs
+COCOTB_TEST_DIR := $(PROJECT_DIR)/test
 
 # Gowin Programmer CLI
 #
@@ -31,7 +42,6 @@ COCOTB_TEST_DIR := test
 # sudo usb_modeswitch -v 0x0403 -p 0x6010 --detach-only
 # sudo $(GOWIN_PROGRAMMER_CLI_PATH) --device $(GOWIN_DEVICE) --run $(GOWIN_OP_FLASH_ERASE) --cable-index $(GOWIN_CABLE_INDEX) --fsFile $(GOWIN_FS_FILE)
 # sudo modprobe ftdi_sio
-
 
 
 # NOTE: keep this at 80 chars.
@@ -57,7 +67,7 @@ help:
 	$(info ================ main help ================)
 	$(info $(help_targets))
 	$(info ================ cocotb help ================)
-	@$(MAKE) -C test help
+	@$(MAKE) -C $(HDL)/test help
 
 .PHONY: sram
 sram:
