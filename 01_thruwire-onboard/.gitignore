@@ -2,9 +2,9 @@
 *.gprj.user
 
 # Work dirs
-impl/gwsynthesis
-impl/pnr
-impl/temp
+**/impl/gwsynthesis/
+**/impl/pnr/
+**/impl/temp/
 
 # Simulation results
 logs/
@@ -17,4 +17,4 @@ sim_build/
 __pycache__/
 
 # cocotb
-test/results.xml
+**/test/results.xml
