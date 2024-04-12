@@ -1,11 +1,11 @@
 # Makefile for testing using cocotb
 
 # defaults
-SIM ?= icarus
+SIM ?= ghdl
 TOPLEVEL_LANG ?= vhdl
 SRC_DIR = $(PWD)/../src
 
-VHDL_SOURCES += $(SRC_DIR)/top.vhdl
+VHDL_SOURCES += $(SRC_DIR)/top.vhd
 # use VERILOG_SOURCES for Verilog files
 
 # TOPLEVEL is the name of the toplevel module in your Verilog or VHDL file

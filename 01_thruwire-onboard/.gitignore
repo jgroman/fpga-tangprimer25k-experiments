@@ -13,6 +13,10 @@ logs/
 obj_dir/
 sim_build/
 
+# GHDL
+*.o
+vhdl/test/top
+
 # Python
 __pycache__/
 
