@@ -3,6 +3,7 @@ TOPLEVEL_LANG?=verilog
 export TOPLEVEL_LANG
 
 PROJECT_NAME := $(notdir $(CURDIR))_$(TOPLEVEL_LANG)
+PROJECT_NUM := $(shell echo $(PROJECT_NAME) | cut -d "_" -f 1)
 PROJECT_DIR := $(CURDIR)/$(TOPLEVEL_LANG)
 
 $(info =======================================================================)
@@ -16,7 +17,7 @@ GOWIN_PROGRAMMER_CLI_PATH := ~/sipeed/gowin/Programmer/bin/programmer_cli
 GOWIN_IDE_BIN_DIR := ~/sipeed/gowin/IDE/bin
 GOWIN_DEVICE := GW5A-25A
 GOWIN_CABLE_INDEX := 1
-GOWIN_FS_FILE := $(PROJECT_DIR)/impl/pnr/$(PROJECT_NAME).fs
+GOWIN_FS_FILE := $(PROJECT_DIR)/impl/pnr/$(PROJECT_NUM)@$(TOPLEVEL_LANG).fs
 GOWIN_OP_SRAM_PGM := 2
 GOWIN_OP_FLASH_ERASE := 52
 GOWIN_OP_FLASH_PGM := 53
@@ -45,45 +46,28 @@ COCOTB_TEST_DIR := $(CURDIR)/test
 # sudo modprobe ftdi_sio
 
 
-# NOTE: keep this at 80 chars.
-define help_targets =
-Targets
-=======
-sram                      Program FS file to SRAM (default)
-flash                     Program FS file to FLASH
-erase                     Bulk erase FLASH
-test                      Run cocotb 'sim' target
-clean                     Remove artefacts
-ide                       Start Gowin IDE
-help                      This help text
-
-endef
-
-
 .PHONY: all
 all: sram
 
 .PHONY: help
-help:
-	$(info ================ main help ================)
-	$(info $(help_targets))
-	$(info ================ cocotb help ================)
+help: ## This help text
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "%-25s %s\n", $$1, $$2}'
 	@$(MAKE) -C $(CURDIR)/test help
 
 .PHONY: sram
-sram:
+sram: ## Program FS file to SRAM (default)
 	sudo openFPGALoader --board tangprimer25k $(GOWIN_FS_FILE)
 
 .PHONY: flash
-flash:
+flash: ## Program FS file to FLASH
 	sudo openFPGALoader --board tangprimer25k --write-flash $(GOWIN_FS_FILE)
 
 .PHONY: erase
-erase:
+erase: ## Bulk erase FLASH
 	sudo openFPGALoader --board tangprimer25k --bulk-erase
 
 .PHONY: clean
-clean:
+clean: ## Remove artefacts
 	rm -f -r $(DUMP_DIR)
 	rm -f -r $(COCOTB_TEST_DIR)/__pycache__
 	rm -f -r $(COCOTB_TEST_DIR)/sim_build
@@ -93,16 +77,16 @@ clean:
 	@$(MAKE) -C $(COCOTB_TEST_DIR) clean
 
 .PHONY: test
-test:
+test: ## Run cocotb 'sim' target
 	rm -f -r $(DUMP_DIR)
 	mkdir $(DUMP_DIR)
 	@$(MAKE) -C $(COCOTB_TEST_DIR)
 
 .PHONY: sim
-sim: test
+sim: test ## Run cocotb 'sim' target
 
 # This includes LD_PRELOAD to run latest IDE on Fedora
 # LD_PRELOAD fixes "undefined symbol: FT_Done_MM_Var" error
 .PHONY: ide
-ide:
+ide: ## Start Gowin IDE
 	@(LD_PRELOAD=/usr/lib64/libfreetype.so $(GOWIN_IDE_BIN_DIR)/gw_ide &)
