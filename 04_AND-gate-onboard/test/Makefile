@@ -3,6 +3,7 @@
 ifeq ($(TOPLEVEL_LANG),verilog)
 	SIM = icarus
     VERILOG_SOURCES = $(PWD)/../verilog/src/top.v
+    VERILOG_INCLUDE_DIRS = $(PWD)/../verilog/src/
 else ifeq ($(TOPLEVEL_LANG),vhdl)
 	SIM = ghdl
     VHDL_SOURCES = $(PWD)/../vhdl/src/top.vhd
